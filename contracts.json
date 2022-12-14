@@ -1,0 +1,26 @@
+{
+  "43113": {
+    "0xCd9Df581F855d07144F150B0C681824548008644": {
+      "name": "A8BallCue",
+      "type": "uups",
+      "impl": "0x53d1B430C0bC7D808B635DAFE9520f18dcCf6E3a"
+    },
+    "0xa0830985871c69c5F4788A6f95B3a238e2Bb8afC": {
+      "name": "A8BallCueMinter",
+      "type": "uups",
+      "impl": "0x0CcA1A0172114404515B52239209Bd4041405b82"
+    }
+  },
+  "43114": {
+    "0xEcC82f602a7982a9464844DEE6dBc751E3615BB4": {
+      "name": "A8BallCue",
+      "type": "uups",
+      "impl": "0x6D490226Af25a50595266daFAA9dE6c7d4a9e672"
+    },
+    "0x69C48974726257320a44e2dBc1D58629d3b7D76E": {
+      "name": "A8BallCueMinter",
+      "type": "uups",
+      "impl": "0x6BF6e4a8dbF513693c11a0a516B8BAFEF666547b"
+    }
+  }
+}

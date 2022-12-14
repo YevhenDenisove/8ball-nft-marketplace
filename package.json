@@ -1,0 +1,53 @@
+{
+  "name": "arcadianmando-8ball-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "-------BASE--------": "",
+    "compile": "npx hardhat compile",
+    "-------RUN-------": "",
+    "run:fuji": "npx hardhat --network avalancheFujiTestnet run",
+    "run:avalanche": "npx hardhat --network avalanche run",
+    "------DEPLOY------": "",
+    "deploy:fuji": "npx hardhat --network avalancheFujiTestnet deploy",
+    "deploy:avalanche": "npx hardhat --network avalanche deploy",
+    "-----UPGRADE-----": "",
+    "upgrade:fuji": "npx hardhat --network avalancheFujiTestnet upgrade",
+    "upgrade:avalanche": "npx hardhat --network avalanche upgrade",
+    "-------KLAYTN------": "",
+    "verify:fuji": "npx hardhat --network avalancheFujiTestnet verify",
+    "verify:avalanche": "npx hardhat --network avalanche verify",
+    "-------FUJI--------": "",
+    "8BallCue:fuji:deploy": "npm run deploy:fuji -- --name A8BallCue",
+    "8BallCue:fuji:upgrade": "npm run upgrade:fuji -- --name A8BallCue",
+    "8BallCue:fuji:verify": "npm run verify:fuji -- --name A8BallCue",
+    "8BallCueMinter:fuji:deploy": "npm run deploy:fuji -- --name A8BallCueMinter",
+    "8BallCueMinter:fuji:upgrade": "npm run upgrade:fuji -- --name A8BallCueMinter",
+    "8BallCueMinter:fuji:verify": "npm run verify:fuji -- --name A8BallCueMinter",
+    "----AVALANCHE----": "",
+    "8BallCue:avalanche:deploy": "npm run deploy:avalanche -- --name A8BallCue",
+    "8BallCue:avalanche:upgrade": "npm run upgrade:avalanche -- --name A8BallCue",
+    "8BallCue:avalanche:verify": "npm run verify:avalanche -- --name A8BallCue",
+    "8BallCueMinter:avalanche:deploy": "npm run deploy:avalanche -- --name A8BallCueMinter",
+    "8BallCueMinter:avalanche:upgrade": "npm run upgrade:avalanche -- --name A8BallCueMinter",
+    "8BallCueMinter:avalanche:verify": "npm run verify:avalanche -- --name A8BallCueMinter"
+  },
+  "author": "dirtycajunrice",
+  "license": "GPL-V3",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "dotenv": "16.0.3",
+    "hardhat": "2.12.2",
+    "ts-node": "10.9.1",
+    "typescript": "4.9.4",
+    "@openzeppelin/contracts": "4.8.0",
+    "@poanet/solidity-flattener": "^3.0.8",
+    "@chainlink/contracts": "0.5.1",
+    "@nomicfoundation/hardhat-toolbox": "2.0.0",
+    "@openzeppelin/contracts-upgradeable": "4.8.0",
+    "@openzeppelin/hardhat-upgrades": "1.21.0",
+    "@dirtycajunrice/contracts": "0.3.0"
+  }
+}
