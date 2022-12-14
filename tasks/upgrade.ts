@@ -10,8 +10,6 @@ task("upgrade", "Upgrade a proxy contract")
     await hre.run('compile')
     try {
       const { contract, factory, data } = await getContractAndData(name, hre)
-      console.log(contract, factory, data);
-
       if (address) {
         console.error("ERROR: Address still set in package.json. Remove first")
         return;

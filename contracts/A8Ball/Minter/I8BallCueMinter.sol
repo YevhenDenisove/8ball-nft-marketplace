@@ -44,6 +44,7 @@ interface I8BallCueMinter is I8BallCommon {
         // designId => design;
         EnumerableSetUpgradeable.UintSet designIds;
         mapping(uint256 => DesignBase) designs;
+        bool random;
     }
 
     /**********
@@ -63,19 +64,22 @@ interface I8BallCueMinter is I8BallCommon {
     function treasury() external view returns(address);
     // 8BallCue address
     function cue() external view returns(address);
-
+    // credits
+    function credits(address) external view returns(uint256);
 
     /*************
      * Functions *
      *************/
 
-    function mintCue(uint256 collectionId) external payable;
+    function mintRandomCue(uint256 collectionId) external payable;
+    function mintSpecificCue(uint256 collectionId, uint256 designId) external payable;
 
     function addCollection(
         uint256 collectionId,
         string calldata name,
         MintConfig calldata mintConfig,
-        AllowlistConfig calldata allowlistConfig
+        AllowlistConfig calldata allowlistConfig,
+        bool random
     ) external;
 
     function addCollectionDesigns(uint256 collectionId, Design[] calldata designs) external;
@@ -85,10 +89,15 @@ interface I8BallCueMinter is I8BallCommon {
     function setCollectionAllowlistConfig(uint256 collectionId, AllowlistConfig calldata config) external;
     function addToCollectionAllowlist(uint256 collectionId, address[] calldata wallets) external;
     function removeFromCollectionAllowlist(uint256 collectionId, address[] calldata wallets) external;
+    function setCollectionRandom(uint256 collectionId, bool random) external;
     function getCollectionIds() external view returns (uint256[] memory);
     function getCollectionRoyaltyConfig(uint256 collectionId) external view returns (RoyaltyConfig memory);
     function getCollectionMintConfig(uint256 collectionId) external view returns (MintConfig memory);
     function getCollectionAllowlistConfig(uint256 collectionId) external view returns (AllowlistConfig memory);
     function getCollectionAllowlist(uint256 collectionId) external view returns (address[] memory);
     function isAllowlisted(uint256 collectionId, address wallet) external view returns (bool);
+    function getCollectionDesignIds(uint256 collectionId) external view returns (uint256[] memory);
+    function getCollectionDesign(uint256 collectionId, uint256 designId) external view returns (DesignBase memory);
+    function addCredits(address wallet, uint256 _credits) external;
+    function removeCredits(address wallet, uint256 _credits) external;
 }

@@ -184,6 +184,11 @@
           "internalType": "struct I8BallCueMinter.AllowlistConfig",
           "name": "allowlistConfig",
           "type": "tuple"
+        },
+        {
+          "internalType": "bool",
+          "name": "random",
+          "type": "bool"
         }
       ],
       "name": "addCollection",
@@ -234,6 +239,24 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "wallet",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_credits",
+          "type": "uint256"
+        }
+      ],
+      "name": "addCredits",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "collectionId",
           "type": "uint256"
@@ -247,6 +270,25 @@
       "name": "addToCollectionAllowlist",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "credits",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -307,6 +349,61 @@
           "internalType": "struct I8BallCueMinter.AllowlistConfig",
           "name": "",
           "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "collectionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "designId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCollectionDesign",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum I8BallCommon.Rarity",
+              "name": "rarity",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "remaining",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct I8BallCueMinter.DesignBase",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "collectionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCollectionDesignIds",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
         }
       ],
       "stateMutability": "view",
@@ -419,9 +516,45 @@
           "type": "uint256"
         }
       ],
-      "name": "mintCue",
+      "name": "mintRandomCue",
       "outputs": [],
       "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "collectionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "designId",
+          "type": "uint256"
+        }
+      ],
+      "name": "mintSpecificCue",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "wallet",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_credits",
+          "type": "uint256"
+        }
+      ],
+      "name": "removeCredits",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -498,6 +631,24 @@
         }
       ],
       "name": "setCollectionMintConfig",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "collectionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "random",
+          "type": "bool"
+        }
+      ],
+      "name": "setCollectionRandom",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

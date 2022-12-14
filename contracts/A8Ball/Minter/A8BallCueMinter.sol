@@ -51,7 +51,8 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
     mapping (uint256 => Collection) private _collections;
     // tokenId counter for 8BallCue
     CountersUpgradeable.Counter private _counter;
-
+    // wallet => credits | 1 credit is worth 1 cue.
+    mapping (address => uint256) public credits;
     /*************
      * Construct *
      *************/
@@ -78,36 +79,24 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
      * Functions *
      *************/
 
-    function mintCue(uint256 collectionId) external payable whenNotPaused nonReentrant {
-        // checks and payment
-        require(_collectionIds.contains(collectionId), "8BallCueMinter::Non-existent collectionId");
-
-        Collection storage collection = _collections[collectionId];
-        require(
-            block.timestamp >= collection.mintConfig.startTime || _hasAdminRole(msg.sender),
-            "8BallCueMinter::Mint has not started"
-        );
-        require(collection.designIds.length() > 0, "8BallCueMinter::Sold out");
-
+    function mintRandomCue(uint256 collectionId) external payable whenNotPaused nonReentrant {
+        _beforeMint(collectionId);
+        require(_collections[collectionId].random, "8BallCueMinter::Invalid random mint collection");
         uint256 payment = _processPayment(collectionId);
-
         // roll for design & decrement total
-        uint256 designId = _randDesignId(collection.designIds.values());
-        DesignBase storage design = collection.designs[designId];
-        design.remaining--;
-        if (design.remaining == 0) {
-            collection.designIds.remove(designId);
-        }
-
-        // save and increment the tokenId counter
-        uint256 tokenId = _counter.current();
-        _counter.increment();
-
-        // mint cue;
-        I8BallCue(cue).mint(msg.sender, tokenId, Cue(design.rarity, collectionId, designId, 1, 1, 1, 1));
-
-        emit CuePurchased(msg.sender, tokenId, collectionId, design.rarity, payment);
+        uint256 designId = _randDesignId(_collections[collectionId].designIds.values());
+        _afterMint(collectionId, designId, payment);
     }
+
+    function mintSpecificCue(uint256 collectionId, uint256 designId) external payable whenNotPaused nonReentrant {
+        _beforeMint(collectionId);
+        require(!_collections[collectionId].random, "8BallCueMinter::Invalid specific mint collection");
+        require(_collections[collectionId].designIds.contains(designId), "8BallCueMinter::Invalid designId");
+        // payment
+        uint256 payment = _processPayment(collectionId);
+        _afterMint(collectionId, designId, payment);
+    }
+
 
     function upgradeCue(
         uint256 tokenId,
@@ -137,34 +126,6 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         emit CueUpgraded(msg.sender, tokenId, cue_.collectionId, cue_.rarity, cost);
     }
 
-    function _processPayment(uint256 collectionId) internal returns (uint256) {
-        uint256 total = getMintPrice(collectionId);
-        uint256 balance = total;
-        require(msg.value >= total, "8BallCueMinter::Insufficient payment");
-        RoyaltyConfig storage royalty = _collections[collectionId].royaltyConfig;
-        if (royalty.treasury != address(0)) {
-            uint256 shared = total * royalty.basisPoints / BASIS_POINTS;
-            balance -= shared;
-            (bool sent,) = treasury.call{value: shared}("");
-            if (sent) {
-                emit RoyaltyPaid(msg.sender, royalty.treasury, collectionId, shared);
-            } else {
-                emit RoyaltyShareFailed(msg.sender, royalty.treasury, collectionId, shared);
-            }
-        }
-
-        payable(treasury).transfer(balance);
-        return total;
-    }
-
-    function _randDesignId(uint256[] memory designIds) internal view returns (uint256) {
-        // Not ideal, but about as good as it is going to get without external randomness
-        uint256 randBlocksBack = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, block.number))) % 256;
-        uint256 rand = uint256(keccak256(bytes.concat(blockhash(block.number - randBlocksBack))));
-
-        return designIds[rand % designIds.length];
-    }
-
     function getMintPrice(uint256 collectionId) public view returns (uint256) {
         uint256 discount = 0;
         Collection storage collection = _collections[collectionId];
@@ -185,12 +146,14 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         uint256 collectionId,
         string calldata name,
         MintConfig calldata mintConfig,
-        AllowlistConfig calldata allowlistConfig
+        AllowlistConfig calldata allowlistConfig,
+        bool random
     ) external onlyAdmin {
         require(_collectionIds.add(collectionId), "8BallCueMinter::Existing collection ID");
         Collection storage collection = _collections[collectionId];
         collection.mintConfig = mintConfig;
         collection.allowlistConfig = allowlistConfig;
+        collection.random = random;
         I8BallCue(cue).addCollection(collectionId, name);
     }
 
@@ -254,6 +217,28 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         }
     }
 
+    function setCollectionRandom(uint256 collectionId, bool random) external onlyAdmin {
+        require(_collectionIds.contains(collectionId), "8BallCueMinter::Non-existent collectionId");
+        Collection storage collection = _collections[collectionId];
+        collection.random = random;
+    }
+
+    function addCredits(address wallet, uint256 _credits) external onlyAdmin {
+        if (credits[wallet] + _credits > 100) {
+            credits[wallet] = 100;
+        } else {
+            credits[wallet] += _credits;
+        }
+    }
+
+    function removeCredits(address wallet, uint256 _credits) external onlyAdmin {
+        if (credits[wallet] < _credits) {
+            credits[wallet] = 0;
+        } else {
+            credits[wallet] -= _credits;
+        }
+    }
+
     function getCollectionIds() external view returns (uint256[] memory) {
         return _collectionIds.values();
     }
@@ -278,6 +263,23 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         return _collections[collectionId].allowlist.values();
     }
 
+    function getCollectionRandom(uint256 collectionId) external view returns (bool) {
+        require(_collectionIds.contains(collectionId), "8BallCueMinter::Non-existent collectionId");
+        return _collections[collectionId].random;
+    }
+
+    function getCollectionDesignIds(uint256 collectionId) external view returns (uint256[] memory) {
+        require(_collectionIds.contains(collectionId), "8BallCueMinter::Non-existent collectionId");
+        return _collections[collectionId].designIds.values();
+    }
+
+    function getCollectionDesign(uint256 collectionId, uint256 designId) external view returns (DesignBase memory) {
+        require(_collectionIds.contains(collectionId), "8BallCueMinter::Non-existent collectionId");
+        Collection storage collection = _collections[collectionId];
+        require(collection.designIds.contains(designId), "8BallCueMinter::Non-existent or sold-out designId");
+        return collection.designs[designId];
+    }
+
     function isAllowlisted(uint256 collectionId, address wallet) external view returns (bool) {
         require(_collectionIds.contains(collectionId), "8BallCueMinter::Non-existent collectionId");
         return _collections[collectionId].allowlist.contains(wallet);
@@ -291,6 +293,66 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
 
     function unpause() external onlyAdmin {
         _unpause();
+    }
+
+    function _processPayment(uint256 collectionId) internal returns (uint256) {
+        if (credits[msg.sender] > 0) {
+            credits[msg.sender]--;
+            return 0;
+        }
+        uint256 total = getMintPrice(collectionId);
+        uint256 balance = total;
+        require(msg.value >= total, "8BallCueMinter::Insufficient payment");
+        RoyaltyConfig storage royalty = _collections[collectionId].royaltyConfig;
+        if (royalty.treasury != address(0)) {
+            uint256 shared = total * royalty.basisPoints / BASIS_POINTS;
+            balance -= shared;
+            (bool sent,) = treasury.call{value: shared}("");
+            if (sent) {
+                emit RoyaltyPaid(msg.sender, royalty.treasury, collectionId, shared);
+            } else {
+                emit RoyaltyShareFailed(msg.sender, royalty.treasury, collectionId, shared);
+            }
+        }
+
+        payable(treasury).transfer(balance);
+        return total;
+    }
+
+    function _randDesignId(uint256[] memory designIds) internal view returns (uint256) {
+        // Not ideal, but about as good as it is going to get without external randomness
+        uint256 randBlocksBack = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, block.number))) % 256;
+        uint256 rand = uint256(keccak256(bytes.concat(blockhash(block.number - randBlocksBack))));
+
+        return designIds[rand % designIds.length];
+    }
+
+    function _beforeMint(uint256 collectionId) internal view {
+        // checks
+        require(_collectionIds.contains(collectionId), "8BallCueMinter::Non-existent collectionId");
+        require(
+            block.timestamp >= _collections[collectionId].mintConfig.startTime || _hasAdminRole(msg.sender),
+            "8BallCueMinter::Mint has not started"
+        );
+        require(_collections[collectionId].designIds.length() > 0, "8BallCueMinter::Sold out");
+    }
+
+    function _afterMint(uint256 collectionId, uint256 designId, uint256 payment) internal {
+        Collection storage collection = _collections[collectionId];
+        DesignBase storage design = collection.designs[designId];
+        design.remaining--;
+        if (design.remaining == 0) {
+            collection.designIds.remove(designId);
+        }
+
+        // save and increment the tokenId counter
+        uint256 tokenId = _counter.current();
+        _counter.increment();
+
+        // mint cue;
+        I8BallCue(cue).mint(msg.sender, tokenId, Cue(design.rarity, collectionId, designId, 1, 1, 1, 1));
+
+        emit CuePurchased(msg.sender, tokenId, collectionId, design.rarity, payment);
     }
 
     function supportsInterface(

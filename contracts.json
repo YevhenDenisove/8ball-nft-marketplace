@@ -3,24 +3,24 @@
     "0xCd9Df581F855d07144F150B0C681824548008644": {
       "name": "A8BallCue",
       "type": "uups",
-      "impl": "0x53d1B430C0bC7D808B635DAFE9520f18dcCf6E3a"
+      "impl": "0x1968f9B4C490730FDB71a61084dcB7C243E36AAF"
     },
     "0xa0830985871c69c5F4788A6f95B3a238e2Bb8afC": {
       "name": "A8BallCueMinter",
       "type": "uups",
-      "impl": "0x0CcA1A0172114404515B52239209Bd4041405b82"
+      "impl": "0xf7902e3146636da33Ca08FB5BC001a7502219eF2"
     }
   },
   "43114": {
     "0xEcC82f602a7982a9464844DEE6dBc751E3615BB4": {
       "name": "A8BallCue",
       "type": "uups",
-      "impl": "0x6D490226Af25a50595266daFAA9dE6c7d4a9e672"
+      "impl": "0x3Fc4038DC375191472Ed8e591176fe72d217deC1"
     },
     "0x69C48974726257320a44e2dBc1D58629d3b7D76E": {
       "name": "A8BallCueMinter",
       "type": "uups",
-      "impl": "0x6BF6e4a8dbF513693c11a0a516B8BAFEF666547b"
+      "impl": "0x3652c5441a01D562d3f660A1a6e2882f656AE9b1"
     }
   }
 }

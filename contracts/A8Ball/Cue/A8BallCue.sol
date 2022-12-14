@@ -124,7 +124,7 @@ StandardAccessControl, PausableUpgradeable, UUPSUpgradeable {
         for (uint256 i = 3; i < 7; i++) {
             attributes[i] = TokenMetadata.Attribute(
                 _attributes.getSkillName(collectionId, i),
-                'number',
+                '',
                 _attributes.getValue(tokenId, collectionId, i).toString(),
                 true
             );
@@ -184,7 +184,9 @@ StandardAccessControl, PausableUpgradeable, UUPSUpgradeable {
     ) internal view virtual override(ERC721URITokenJSON) returns (string memory) {
         uint256 collectionId = _attributes.getValue(tokenId, 0, 0);
         return string(
-            abi.encodePacked(_attributes.getTreeName(collectionId), "/", _attributes.getValue(tokenId, collectionId, 2).toString())
+            abi.encodePacked(
+                _attributes.getTreeName(collectionId), "/", _attributes.getValue(tokenId, collectionId, 2).toString()
+            )
         );
     }
 
