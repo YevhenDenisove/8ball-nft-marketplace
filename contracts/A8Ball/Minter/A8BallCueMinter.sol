@@ -84,7 +84,7 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         require(_collections[collectionId].random, "8BallCueMinter::Invalid random mint collection");
         uint256 payment = _processPayment(collectionId);
         // roll for design & decrement total
-        uint256 designId = _randDesignId(_collections[collectionId].designIds.values());
+        uint256 designId = _randDesignId(collectionId, _collections[collectionId].designIds.values());
         _afterMint(collectionId, designId, payment);
     }
 
@@ -319,12 +319,27 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         return total;
     }
 
-    function _randDesignId(uint256[] memory designIds) internal view returns (uint256) {
+    function _randDesignId(uint256 collectionId, uint256[] memory designIds) internal view returns (uint256) {
         // Not ideal, but about as good as it is going to get without external randomness
         uint256 randBlocksBack = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, block.number))) % 256;
         uint256 rand = uint256(keccak256(bytes.concat(blockhash(block.number - randBlocksBack))));
-
-        return designIds[rand % designIds.length];
+        // sum remaining across all design ids;
+        uint256 sum = 0;
+        for (uint256 i = 0; i < designIds.length; i++) {
+            sum += _collections[collectionId].designs[designIds[i]].remaining;
+        }
+        // result evenly split across all remaining
+        uint256 result = rand % sum;
+        sum = 0;
+        // Iterate remaining until sum is greater than result
+        for (uint256 i = 0; i < designIds.length; i++) {
+            uint256 max = sum + _collections[collectionId].designs[designIds[i]].remaining;
+            if (result <= (max - 1)) {
+                return designIds[designIds[i]];
+            }
+            sum = max;
+        }
+        revert("8BallCueMinter::Error calculating random designId");
     }
 
     function _beforeMint(uint256 collectionId) internal view {

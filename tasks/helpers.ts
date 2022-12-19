@@ -1,5 +1,6 @@
 import "@nomicfoundation/hardhat-toolbox";
 import { Manifest } from '@openzeppelin/upgrades-core';
+import { utils } from 'ethers';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import fs from 'fs';
 import { setTimeout } from 'timers/promises';
@@ -94,4 +95,12 @@ export const getProxyData = async (address: string, hre: HardhatRuntimeEnvironme
 export const waitSeconds = async (seconds: number) => {
   console.log("Waiting 5s...")
   await setTimeout(seconds * 1000);
+}
+
+export const standardAccessControlRoles = (role: string) => {
+  const roles = ["DEFAULT_ADMIN_ROLE", "ADMIN_ROLE", "CONTRACT_ROLE", "MINTER_ROLE", "PRIVATE_ROLE", "BRIDGE_ROLE"]
+  if (role.length === 0) {
+
+  }
+  roles.map(r => console.log("Role Name:", r, "|", "Role Bytes32:", utils.keccak256(utils.toUtf8Bytes(r))))
 }

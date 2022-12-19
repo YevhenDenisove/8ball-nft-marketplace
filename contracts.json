@@ -8,7 +8,7 @@
     "0xa0830985871c69c5F4788A6f95B3a238e2Bb8afC": {
       "name": "A8BallCueMinter",
       "type": "uups",
-      "impl": "0xf7902e3146636da33Ca08FB5BC001a7502219eF2"
+      "impl": "0x680e176b2bbdB2336063d0C82961BDB7a52CF13c"
     }
   },
   "43114": {
@@ -20,7 +20,7 @@
     "0x69C48974726257320a44e2dBc1D58629d3b7D76E": {
       "name": "A8BallCueMinter",
       "type": "uups",
-      "impl": "0x3652c5441a01D562d3f660A1a6e2882f656AE9b1"
+      "impl": "0x0f7eFa9e554659AaddD2c481785aF6eA983A8945"
     }
   }
 }
