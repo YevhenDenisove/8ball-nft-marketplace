@@ -9,16 +9,17 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "@dirtycajunrice/contracts/utils/access/StandardAccessControl.sol";
+import "@dirtycajunrice/contracts/third-party/chainlink/ChainlinkVRFConsumer.sol";
 
 import "../Cue/I8BallCue.sol";
 import "./I8BallCueMinter.sol";
 
 /**
-* @title Arcadian 8Ball Cue Minter v1.0.0
+* @title Arcadian 8Ball Cue Minter v2.0.0
 * @author @DirtyCajunRice
 */
 contract A8BallCueMinter is Initializable, I8BallCueMinter, PausableUpgradeable, UUPSUpgradeable,
-ReentrancyGuardUpgradeable, StandardAccessControl  {
+ReentrancyGuardUpgradeable, StandardAccessControl, ChainlinkVRFConsumer {
     /*************
      * Libraries *
      *************/
@@ -68,9 +69,19 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         __UUPSUpgradeable_init();
         __ReentrancyGuard_init();
         __ERC165_init();
+        __ChainlinkVRFConsumer_init(
+            0x2eD832Ba664535e5886b75D64C46EB9a228C2610, // coordinator (Fuji)
+            // 0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634, // coordinator (Avalanche)
+            0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61, // key hash (Fuji) (300 Gwei)
+            // 0x83250c5584ffa93feb6ee082981c5ebe484c865196750b39835ad4f13780435d, // key hash (Avalanche) (200 Gwei)
+            526, // subscription ID (Fuji)
+            // 103, // subscription ID (Avalanche)
+            1 // confirmations
+        );
 
         upgradePrice = 1 ether / 2;
-        cue = 0xEcC82f602a7982a9464844DEE6dBc751E3615BB4;
+        cue = 0xCd9Df581F855d07144F150B0C681824548008644; // Fuji
+        // cue = 0xEcC82f602a7982a9464844DEE6dBc751E3615BB4; // Avalanche
 
         _counter.increment();
     }
@@ -79,24 +90,32 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
      * Functions *
      *************/
 
-    function mintRandomCue(uint256 collectionId) external payable whenNotPaused nonReentrant {
-        _beforeMint(collectionId);
-        require(_collections[collectionId].random, "8BallCueMinter::Invalid random mint collection");
-        uint256 payment = _processPayment(collectionId);
+    function buyRandomCue(uint256 collectionId) external payable whenNotPaused nonReentrant {
+        _beforePurchase(collectionId);
+        uint256[] memory links = new uint256[](3);
+        links[0] = collectionId;
+        links[1] = _nextTokenID();
+        links[2] = _processPayment(collectionId);
+        _requestRandom(msg.sender, 1, links);
+        _beforePurchase(collectionId);
+    }
+
+    function mintRandomCue() external whenNotPaused nonReentrant {
+        (uint256[] memory words, uint256[] memory links) = _consumeRequest(msg.sender);
+        require(words.length > 0, "8BallCueMinter::Request is still pending");
+
         // roll for design & decrement total
-        uint256 designId = _randDesignId(collectionId, _collections[collectionId].designIds.values());
-        _afterMint(collectionId, designId, payment);
+        uint256 designId = _randDesignId(links[0], _collections[links[0]].designIds.values(), words[0]);
+        _afterPurchase(links[0], designId, links[2], links[1]);
     }
 
     function mintSpecificCue(uint256 collectionId, uint256 designId) external payable whenNotPaused nonReentrant {
-        _beforeMint(collectionId);
+        _beforePurchase(collectionId);
         require(!_collections[collectionId].random, "8BallCueMinter::Invalid specific mint collection");
         require(_collections[collectionId].designIds.contains(designId), "8BallCueMinter::Invalid designId");
         // payment
-        uint256 payment = _processPayment(collectionId);
-        _afterMint(collectionId, designId, payment);
+        _afterPurchase(collectionId, designId, _processPayment(collectionId), _nextTokenID());
     }
-
 
     function upgradeCue(
         uint256 tokenId,
@@ -147,14 +166,17 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         string calldata name,
         MintConfig calldata mintConfig,
         AllowlistConfig calldata allowlistConfig,
-        bool random
+        bool random,
+        bool exists
     ) external onlyAdmin {
         require(_collectionIds.add(collectionId), "8BallCueMinter::Existing collection ID");
         Collection storage collection = _collections[collectionId];
         collection.mintConfig = mintConfig;
         collection.allowlistConfig = allowlistConfig;
         collection.random = random;
-        I8BallCue(cue).addCollection(collectionId, name);
+        if (!exists) {
+            I8BallCue(cue).addCollection(collectionId, name);
+        }
     }
 
     function addCollectionDesigns(uint256 collectionId, Design[] calldata designs) external onlyAdmin {
@@ -295,6 +317,14 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         _unpause();
     }
 
+    function setCounter(uint256 value) external onlyAdmin {
+        _counter._value = value;
+    }
+
+    function setCue(address _cue) external onlyAdmin {
+        cue = _cue;
+    }
+
     function _processPayment(uint256 collectionId) internal returns (uint256) {
         if (credits[msg.sender] > 0) {
             credits[msg.sender]--;
@@ -319,10 +349,9 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         return total;
     }
 
-    function _randDesignId(uint256 collectionId, uint256[] memory designIds) internal view returns (uint256) {
-        // Not ideal, but about as good as it is going to get without external randomness
-        uint256 randBlocksBack = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, block.number))) % 256;
-        uint256 rand = uint256(keccak256(bytes.concat(blockhash(block.number - randBlocksBack))));
+    function _randDesignId(
+        uint256 collectionId, uint256[] memory designIds, uint256 rand
+    ) internal view returns (uint256) {
         // sum remaining across all design ids;
         uint256 sum = 0;
         for (uint256 i = 0; i < designIds.length; i++) {
@@ -342,7 +371,14 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         revert("8BallCueMinter::Error calculating random designId");
     }
 
-    function _beforeMint(uint256 collectionId) internal view {
+    function _nextTokenID() internal returns(uint256) {
+        // save and increment the tokenId counter
+        uint256 tokenId = _counter.current();
+        _counter.increment();
+        return tokenId;
+    }
+
+    function _beforePurchase(uint256 collectionId) internal view {
         // checks
         require(_collectionIds.contains(collectionId), "8BallCueMinter::Non-existent collectionId");
         require(
@@ -352,27 +388,23 @@ ReentrancyGuardUpgradeable, StandardAccessControl  {
         require(_collections[collectionId].designIds.length() > 0, "8BallCueMinter::Sold out");
     }
 
-    function _afterMint(uint256 collectionId, uint256 designId, uint256 payment) internal {
+    function _afterPurchase(uint256 collectionId, uint256 designId, uint256 payment, uint256 tokenId) internal {
         Collection storage collection = _collections[collectionId];
         DesignBase storage design = collection.designs[designId];
         design.remaining--;
         if (design.remaining == 0) {
             collection.designIds.remove(designId);
         }
-
-        // save and increment the tokenId counter
-        uint256 tokenId = _counter.current();
-        _counter.increment();
-
         // mint cue;
         I8BallCue(cue).mint(msg.sender, tokenId, Cue(design.rarity, collectionId, designId, 1, 1, 1, 1));
 
         emit CuePurchased(msg.sender, tokenId, collectionId, design.rarity, payment);
     }
 
+
     function supportsInterface(
         bytes4 interfaceId
-    ) public view virtual override(AccessControlEnumerableUpgradeable) returns (bool){
+    ) public view virtual override(ChainlinkVRFConsumer, AccessControlEnumerableUpgradeable) returns (bool){
         return type(I8BallCueMinter).interfaceId == interfaceId || super.supportsInterface(interfaceId);
     }
 }

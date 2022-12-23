@@ -5,10 +5,10 @@
       "type": "uups",
       "impl": "0x1968f9B4C490730FDB71a61084dcB7C243E36AAF"
     },
-    "0xa0830985871c69c5F4788A6f95B3a238e2Bb8afC": {
+    "0x10c43C1947d08e6fE69cAaC1730F8863a4Ddaa69": {
       "name": "A8BallCueMinter",
       "type": "uups",
-      "impl": "0x680e176b2bbdB2336063d0C82961BDB7a52CF13c"
+      "impl": "0x9A8E0217cD870783c3f2317985C57Bf570969153"
     }
   },
   "43114": {

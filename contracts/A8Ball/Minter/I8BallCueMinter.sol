@@ -71,7 +71,8 @@ interface I8BallCueMinter is I8BallCommon {
      * Functions *
      *************/
 
-    function mintRandomCue(uint256 collectionId) external payable;
+    function buyRandomCue(uint256 collectionId) external payable;
+    function mintRandomCue() external;
     function mintSpecificCue(uint256 collectionId, uint256 designId) external payable;
 
     function addCollection(
@@ -79,7 +80,8 @@ interface I8BallCueMinter is I8BallCommon {
         string calldata name,
         MintConfig calldata mintConfig,
         AllowlistConfig calldata allowlistConfig,
-        bool random
+        bool random,
+        bool exists
     ) external;
 
     function addCollectionDesigns(uint256 collectionId, Design[] calldata designs) external;
