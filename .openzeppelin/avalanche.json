@@ -10,6 +10,11 @@
       "address": "0x69C48974726257320a44e2dBc1D58629d3b7D76E",
       "txHash": "0x1d65784967c9726e44c76f87aaff40f2b82dc474052f937718d808dcafe28e5d",
       "kind": "uups"
+    },
+    {
+      "address": "0x8Dd342E845Fe738FDed2F8cF21B761a9EbC2A99f",
+      "txHash": "0xfcd43d169ace41a582f1699e026f02fa20b9da1807c1ebd16d5e22e8bb08d246",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -2308,6 +2313,635 @@
           "t_uint256": {
             "label": "uint256",
             "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "b6ce1d99ec130b8b36208171da1af96450d1005877917f28143709628808c401": {
+      "address": "0x5AC39c21eAEf125016fd8De3833761b4A25708B2",
+      "txHash": "0x05792b7d6a180610622f89d12cea441e95b18217d5aeea45aa09faea313c9061",
+      "layout": {
+        "solcVersion": "0.8.16",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\ERC1967\\ERC1967UpgradeUpgradeable.sol:211"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\UUPSUpgradeable.sol:107"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:80"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "301",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)1018_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "302",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:259"
+          },
+          {
+            "label": "_roleMembers",
+            "offset": 0,
+            "slot": "351",
+            "type": "t_mapping(t_bytes32,t_struct(AddressSet)5431_storage)",
+            "contract": "AccessControlEnumerableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlEnumerableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "352",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlEnumerableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlEnumerableUpgradeable.sol:76"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "401",
+            "type": "t_array(t_uint256)46_storage",
+            "contract": "StandardAccessControl",
+            "src": "@dirtycajunrice\\contracts\\utils\\access\\StandardAccessControl.sol:99"
+          },
+          {
+            "label": "_coordinator",
+            "offset": 0,
+            "slot": "447",
+            "type": "t_address",
+            "contract": "ChainlinkVRFConsumerBase",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumerBase.sol:10"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "448",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ChainlinkVRFConsumerBase",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumerBase.sol:50"
+          },
+          {
+            "label": "_coordinator",
+            "offset": 0,
+            "slot": "497",
+            "type": "t_contract(VRFCoordinatorV2Interface)95",
+            "contract": "ChainlinkVRFConsumer",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumer.sol:17"
+          },
+          {
+            "label": "_keyHash",
+            "offset": 0,
+            "slot": "498",
+            "type": "t_bytes32",
+            "contract": "ChainlinkVRFConsumer",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumer.sol:19"
+          },
+          {
+            "label": "_subscriptionId",
+            "offset": 0,
+            "slot": "499",
+            "type": "t_uint64",
+            "contract": "ChainlinkVRFConsumer",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumer.sol:20"
+          },
+          {
+            "label": "_confirmations",
+            "offset": 8,
+            "slot": "499",
+            "type": "t_uint16",
+            "contract": "ChainlinkVRFConsumer",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumer.sol:21"
+          },
+          {
+            "label": "_requests",
+            "offset": 0,
+            "slot": "500",
+            "type": "t_mapping(t_address,t_struct(Request)547_storage)",
+            "contract": "ChainlinkVRFConsumer",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumer.sol:24"
+          },
+          {
+            "label": "_requesters",
+            "offset": 0,
+            "slot": "501",
+            "type": "t_struct(AddressSet)5431_storage",
+            "contract": "ChainlinkVRFConsumer",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumer.sol:25"
+          },
+          {
+            "label": "_idMap",
+            "offset": 0,
+            "slot": "503",
+            "type": "t_struct(UintToAddressMap)4436_storage",
+            "contract": "ChainlinkVRFConsumer",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumer.sol:28"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "506",
+            "type": "t_array(t_uint256)43_storage",
+            "contract": "ChainlinkVRFConsumer",
+            "src": "@dirtycajunrice\\contracts\\third-party\\chainlink\\ChainlinkVRFConsumer.sol:94"
+          },
+          {
+            "label": "treasury",
+            "offset": 0,
+            "slot": "549",
+            "type": "t_address",
+            "contract": "A8BallCueMinter",
+            "src": "contracts\\A8Ball\\Minter\\A8BallCueMinter.sol:38"
+          },
+          {
+            "label": "cue",
+            "offset": 0,
+            "slot": "550",
+            "type": "t_address",
+            "contract": "A8BallCueMinter",
+            "src": "contracts\\A8Ball\\Minter\\A8BallCueMinter.sol:40"
+          },
+          {
+            "label": "upgradePrice",
+            "offset": 0,
+            "slot": "551",
+            "type": "t_uint256",
+            "contract": "A8BallCueMinter",
+            "src": "contracts\\A8Ball\\Minter\\A8BallCueMinter.sol:42"
+          },
+          {
+            "label": "_collectionIds",
+            "offset": 0,
+            "slot": "552",
+            "type": "t_struct(UintSet)5588_storage",
+            "contract": "A8BallCueMinter",
+            "src": "contracts\\A8Ball\\Minter\\A8BallCueMinter.sol:50"
+          },
+          {
+            "label": "_collections",
+            "offset": 0,
+            "slot": "554",
+            "type": "t_mapping(t_uint256,t_struct(Collection)7548_storage)",
+            "contract": "A8BallCueMinter",
+            "src": "contracts\\A8Ball\\Minter\\A8BallCueMinter.sol:52"
+          },
+          {
+            "label": "_counter",
+            "offset": 0,
+            "slot": "555",
+            "type": "t_struct(Counter)2759_storage",
+            "contract": "A8BallCueMinter",
+            "src": "contracts\\A8Ball\\Minter\\A8BallCueMinter.sol:54"
+          },
+          {
+            "label": "credits",
+            "offset": 0,
+            "slot": "556",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "A8BallCueMinter",
+            "src": "contracts\\A8Ball\\Minter\\A8BallCueMinter.sol:56"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)43_storage": {
+            "label": "uint256[43]",
+            "numberOfBytes": "1376"
+          },
+          "t_array(t_uint256)46_storage": {
+            "label": "uint256[46]",
+            "numberOfBytes": "1472"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(VRFCoordinatorV2Interface)95": {
+            "label": "contract VRFCoordinatorV2Interface",
+            "numberOfBytes": "20"
+          },
+          "t_enum(Rarity)5795": {
+            "label": "enum I8BallCommon.Rarity",
+            "members": [
+              "Common",
+              "Uncommon",
+              "Rare",
+              "Epic",
+              "Legendary"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(Request)547_storage)": {
+            "label": "mapping(address => struct IChainlinkVRFConsumer.Request)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_bytes32)": {
+            "label": "mapping(bytes32 => bytes32)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(AddressSet)5431_storage)": {
+            "label": "mapping(bytes32 => struct EnumerableSetUpgradeable.AddressSet)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)1018_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Collection)7548_storage)": {
+            "label": "mapping(uint256 => struct I8BallCueMinter.Collection)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(DesignBase)7520_storage)": {
+            "label": "mapping(uint256 => struct I8BallCueMinter.DesignBase)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)5431_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)5116_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(AllowlistConfig)7509_storage": {
+            "label": "struct I8BallCueMinter.AllowlistConfig",
+            "members": [
+              {
+                "label": "duration",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "discount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Bytes32Set)5310_storage": {
+            "label": "struct EnumerableSetUpgradeable.Bytes32Set",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)5116_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Bytes32ToBytes32Map)3999_storage": {
+            "label": "struct EnumerableMapUpgradeable.Bytes32ToBytes32Map",
+            "members": [
+              {
+                "label": "_keys",
+                "type": "t_struct(Bytes32Set)5310_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_values",
+                "type": "t_mapping(t_bytes32,t_bytes32)",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(Collection)7548_storage": {
+            "label": "struct I8BallCueMinter.Collection",
+            "members": [
+              {
+                "label": "mintConfig",
+                "type": "t_struct(MintConfig)7525_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "allowlistConfig",
+                "type": "t_struct(AllowlistConfig)7509_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "allowlist",
+                "type": "t_struct(AddressSet)5431_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "royaltyConfig",
+                "type": "t_struct(RoyaltyConfig)7514_storage",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "designIds",
+                "type": "t_struct(UintSet)5588_storage",
+                "offset": 0,
+                "slot": "8"
+              },
+              {
+                "label": "designs",
+                "type": "t_mapping(t_uint256,t_struct(DesignBase)7520_storage)",
+                "offset": 0,
+                "slot": "10"
+              },
+              {
+                "label": "random",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "11"
+              }
+            ],
+            "numberOfBytes": "384"
+          },
+          "t_struct(Counter)2759_storage": {
+            "label": "struct CountersUpgradeable.Counter",
+            "members": [
+              {
+                "label": "_value",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(DesignBase)7520_storage": {
+            "label": "struct I8BallCueMinter.DesignBase",
+            "members": [
+              {
+                "label": "rarity",
+                "type": "t_enum(Rarity)5795",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "remaining",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(MintConfig)7525_storage": {
+            "label": "struct I8BallCueMinter.MintConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "price",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Request)547_storage": {
+            "label": "struct IChainlinkVRFConsumer.Request",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "links",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "words",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(RoleData)1018_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoyaltyConfig)7514_storage": {
+            "label": "struct I8BallCueMinter.RoyaltyConfig",
+            "members": [
+              {
+                "label": "treasury",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "basisPoints",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)5116_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(UintSet)5588_storage": {
+            "label": "struct EnumerableSetUpgradeable.UintSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)5116_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(UintToAddressMap)4436_storage": {
+            "label": "struct EnumerableMapUpgradeable.UintToAddressMap",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Bytes32ToBytes32Map)3999_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint16": {
+            "label": "uint16",
+            "numberOfBytes": "2"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
           },
           "t_uint8": {
             "label": "uint8",

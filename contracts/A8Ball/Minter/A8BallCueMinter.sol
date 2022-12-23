@@ -70,18 +70,18 @@ ReentrancyGuardUpgradeable, StandardAccessControl, ChainlinkVRFConsumer {
         __ReentrancyGuard_init();
         __ERC165_init();
         __ChainlinkVRFConsumer_init(
-            0x2eD832Ba664535e5886b75D64C46EB9a228C2610, // coordinator (Fuji)
-            // 0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634, // coordinator (Avalanche)
-            0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61, // key hash (Fuji) (300 Gwei)
-            // 0x83250c5584ffa93feb6ee082981c5ebe484c865196750b39835ad4f13780435d, // key hash (Avalanche) (200 Gwei)
-            526, // subscription ID (Fuji)
-            // 103, // subscription ID (Avalanche)
+            // 0x2eD832Ba664535e5886b75D64C46EB9a228C2610, // coordinator (Fuji)
+            0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634, // coordinator (Avalanche)
+            // 0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61, // key hash (Fuji) (300 Gwei)
+            0x83250c5584ffa93feb6ee082981c5ebe484c865196750b39835ad4f13780435d, // key hash (Avalanche) (200 Gwei)
+            // 526, // subscription ID (Fuji)
+            103, // subscription ID (Avalanche)
             1 // confirmations
         );
 
         upgradePrice = 1 ether / 2;
-        cue = 0xCd9Df581F855d07144F150B0C681824548008644; // Fuji
-        // cue = 0xEcC82f602a7982a9464844DEE6dBc751E3615BB4; // Avalanche
+        // cue = 0xCd9Df581F855d07144F150B0C681824548008644; // Fuji
+        cue = 0xEcC82f602a7982a9464844DEE6dBc751E3615BB4; // Avalanche
 
         _counter.increment();
     }

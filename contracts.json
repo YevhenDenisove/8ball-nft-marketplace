@@ -17,10 +17,10 @@
       "type": "uups",
       "impl": "0x3Fc4038DC375191472Ed8e591176fe72d217deC1"
     },
-    "0x69C48974726257320a44e2dBc1D58629d3b7D76E": {
+    "0x8Dd342E845Fe738FDed2F8cF21B761a9EbC2A99f": {
       "name": "A8BallCueMinter",
       "type": "uups",
-      "impl": "0x0f7eFa9e554659AaddD2c481785aF6eA983A8945"
+      "impl": "0x5AC39c21eAEf125016fd8De3833761b4A25708B2"
     }
   }
 }
