@@ -66,12 +66,6 @@ StandardAccessControl, PausableUpgradeable, UUPSUpgradeable {
         require(_isApprovedOrOwner(owner, tokenId), "8BallCue::Not approved or owner");
 
         uint256 collectionId = _attributes.getValue(tokenId, 0, 0);
-        uint256 rarity = _attributes.getValue(tokenId, collectionId, 1);
-        uint256 max = rarity == 0 ? 5 : 6 + rarity ;
-
-        for (uint256 i = 3; i < 7; i++) {
-            require(_attributes.getValue(tokenId, collectionId, i) < max, "8BallCue::Upgrade exceeds max level");
-        }
 
         _attributes.setValue(tokenId, collectionId, 3, cue.power);
         _attributes.setValue(tokenId, collectionId, 4, cue.accuracy);

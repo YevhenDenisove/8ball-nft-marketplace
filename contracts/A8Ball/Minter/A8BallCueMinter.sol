@@ -57,7 +57,7 @@ ReentrancyGuardUpgradeable, StandardAccessControl, ChainlinkVRFConsumer {
     /*************
      * Construct *
      *************/
-
+    event MandoHasWeightedDice(uint256 rand, uint256 sum, uint256 result, uint256 max, uint256[] designIds, uint256 designId);
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -351,7 +351,7 @@ ReentrancyGuardUpgradeable, StandardAccessControl, ChainlinkVRFConsumer {
 
     function _randDesignId(
         uint256 collectionId, uint256[] memory designIds, uint256 rand
-    ) internal view returns (uint256) {
+    ) internal returns (uint256) {
         // sum remaining across all design ids;
         uint256 sum = 0;
         for (uint256 i = 0; i < designIds.length; i++) {
@@ -359,15 +359,17 @@ ReentrancyGuardUpgradeable, StandardAccessControl, ChainlinkVRFConsumer {
         }
         // result evenly split across all remaining
         uint256 result = rand % sum;
-        sum = 0;
+        uint256 sum2 = 0;
         // Iterate remaining until sum is greater than result
         for (uint256 i = 0; i < designIds.length; i++) {
-            uint256 max = sum + _collections[collectionId].designs[designIds[i]].remaining;
+            uint256 max = sum2 + _collections[collectionId].designs[designIds[i]].remaining;
             if (result <= (max - 1)) {
-                return designIds[designIds[i]];
+                emit MandoHasWeightedDice(rand, sum, result, max, designIds, designIds[i]);
+                return designIds[i];
             }
-            sum = max;
+            sum2 = max;
         }
+
         revert("8BallCueMinter::Error calculating random designId");
     }
 
